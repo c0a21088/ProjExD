@@ -3,8 +3,6 @@ def main_code(taishoumoji, kessonmoji, hyoujimoji): #すべてリストで与え
     st = datetime.datetime.now()
     print("対象文字")
     print(taishoumoji)
-    print("欠損文字")
-    print(kessonmoji)
     print("表示文字")
     print(hyoujimoji)
     i = 0
@@ -15,6 +13,8 @@ def main_code(taishoumoji, kessonmoji, hyoujimoji): #すべてリストで与え
             i += 1
             if i == len(kessonmoji)+1:
                 print("全問正解！")
+                ed = datetime.datetime.now()
+                print("回答時間:" + str((ed-st).seconds) + "秒")
                 break
             text = str(i) + "つ目の文字を入力して下さい。"
             kesson_ans = input(text)
