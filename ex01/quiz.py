@@ -16,3 +16,5 @@ def quiz(q_list,a_list):
         ed = datetime.datetime.now()
     print("回答時間:" + str((ed-st).seconds) + "秒")
 quiz(quiz_list,ans_list)
+#quiz(a,b)でaに問題のリストを入れ、bに回答の2重リストを入れてください。
+#問題のリスト番号と回答の2重リストはリスト番号をそろえてください。
