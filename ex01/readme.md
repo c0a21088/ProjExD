@@ -1,1 +1,3 @@
-# taishoumojisuuに対象文字数、kessonmojisuuに欠損文字数えを入れると動きます
+# quiz(a,b)でaに問題のリストを入れ、bに回答の2重リストを入れてください。
+# 問題のリスト番号と回答の2重リストはリスト番号をそろえてください。
+# taishoumojisuuに対象文字数、kessonmojisuuに欠損文字数を入力すると動きます。
