@@ -29,10 +29,23 @@ def generate_calc_button():
 def generate_addition():
     button = tk.Button(root,text="+",height=2,width=4,font=("Times New Roman",30))
     button.bind("<1>",button_click)
-    button.grid(row=3,column=4)
+    button.grid(row=0,column=4)
 
+#--------------------------------------------
+def generate_equal():
+    button = tk.Button(root,text="=",height=2,width=4,font=("Times New Roman",30))
+    button.bind("<1>",click_equal)
+    button.grid(row=4,column=4)
+#--------------------------------------------
+def click_equal(event):
+    btn=event.widget
+    num=entry.get()
+    ans = eval(num)
+    entry.delete(0,tk.END)
+    entry.insert(tk.END,ans)
 #--------------------------------------------
 generate_calc_button()
 generate_txtbox()
 generate_addition()
+generate_equal()
 root.mainloop()
