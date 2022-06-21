@@ -27,8 +27,12 @@ def generate_calc_button():
         generate_button(str(i),rx,ry)
 #--------------------------------------------
 def generate_addition():
-    pass
+    button = tk.Button(root,text="+",height=2,width=4,font=("Times New Roman",30))
+    button.bind("<1>",button_click)
+    button.grid(row=3,column=4)
+
 #--------------------------------------------
 generate_calc_button()
 generate_txtbox()
+generate_addition()
 root.mainloop()
