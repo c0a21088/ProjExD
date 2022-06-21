@@ -26,6 +26,9 @@ def generate_calc_button():
         ry=k%3
         generate_button(str(i),rx,ry)
 #--------------------------------------------
+def generate_addition():
+    pass
+#--------------------------------------------
 generate_calc_button()
 generate_txtbox()
 root.mainloop()
