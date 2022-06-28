@@ -1,11 +1,9 @@
-from cProfile import label
 import tkinter as tk
 from tkinter import font
 import tkinter.messagebox as tkm
 if __name__ == "__main__":
-    root = tk.Tk()
-    label = tk.Label(root,text="mayoerukoukaton",
-            font= ("Times New Roman",80),
-            )
-    label.pack()
+    root = tk.Tk("迷える工科トン")
+    canvas = tk.Canvas(root,width=1500,height=900,bg="black")
+    canvas.pack()
     root.mainloop()
+    
