@@ -12,16 +12,19 @@ def key_up(event):
     print(key)
     
 def main_proc():
-    global cx, cy, key
-    hoge={
-        ""  :[0, 0],
-        "Up":[0, -20],
-        "Down":[0, +20],
-        "Left":[-20, 0],
-        "Right":[+20,0],
+    global cx, cy, key, mx, my
+    hoge={                  #コマンド入力
+        "Up"    :[0, -1],
+        "Down"  :[0, +1],
+        "Left"  :[-1, 0],
+        "Right" :[+1,0],
     }
-    print(key)
-    cx, cy = cx+hoge[key][0], cy+hoge[key][1]
+    try:
+        if mz_list[my+hoge[key][1]][mx+hoge[key][0]] == 0: #もし移動先が床なら
+            my,mx = my+hoge[key][1], mx+hoge[key][0]
+    except:
+        pass
+    cx, cy = mx*100+50,my*100+50
     canvas.coords("tori", cx, cy)
     root.after(100,main_proc)    
 
@@ -39,7 +42,9 @@ if __name__ == "__main__":
     mz_list = mm.make_maze(15,9) #mzのリストを返す
     mm.show_maze(canvas,mz_list) #canvasにmaze_bg絵御描く
     tori = tk.PhotoImage(file="fig/5.png")
-    cx, cy = 300,400
+    mx,my = 1,1
+    cx, cy = mx*100+50,my*100+50
+
     canvas.create_image(cx,cy, image=tori,tag="tori")
 
     key = ""
