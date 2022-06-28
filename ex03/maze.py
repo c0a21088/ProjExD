@@ -5,13 +5,11 @@ from random import randint as ri                #randintをriとしている
 def key_down(event):
     global key, gt, ogx, ogy, gy, gx
     key=event.keysym
-    print(key)
-    gt+=1                                       #s工科トンが動くと1増えるようにしている
+    gt+=1                                       #s工科とんが動くと1増えるようにしている
 
 def key_up(event):
     global key
     key = ""
-    print(key)
     
 def main_proc():
     global cx, cy, key, mx, my, gy, gx, gt, ogx, ogy
@@ -26,7 +24,7 @@ def main_proc():
             my,mx = my+hoge[key][1], mx+hoge[key][0]
     except:
         pass
-    if gt >= 2:                                             #s工科トンが2回動くと、
+    if gt >= 2:                                             #s工科とんが2回動くと、
         gt-=2                                               #gtを2減らすことでループを回している。(gtは破壊されてしまう)
         ogx+=ri(-1,1)                                       #ランダムでg工科トンのx軸が動く計算
         ogy+=ri(-1,1)                                       #ランダムでg工科トンのy軸が動く計算
@@ -48,22 +46,22 @@ def main_proc():
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("迷える工科トン")
+    root.title("迷える工科とん")
     canvas = tk.Canvas(root,width=1500,height=900,bg="black")
     canvas.pack()
     mz_list = mm.make_maze(15,9)            #mzのリストを返す
     mm.show_maze(canvas,mz_list)            #canvasにmaze_bg絵御描く
-    tori = tk.PhotoImage(file="fig/5.png")  #startの工科トンの絵
-    goal = tk.PhotoImage(file="fig/6.png")  #goalの工科トンの絵
+    tori = tk.PhotoImage(file="fig/5.png")  #startの工科とんの絵
+    goal = tk.PhotoImage(file="fig/6.png")  #goalの工科とんの絵
     mx,my = 1,1
     cx, cy = mx*100+50,my*100+50
     canvas.create_image(cx,cy, image=tori,tag="tori")
-    ogx, ogy = 1,1                          #mx,myと同様にゴールの工科トンの座標を決める
+    ogx, ogy = 1,1                          #mx,myと同様にゴールの工科とんの座標を決める
     gx, gy = ogx*100+750, ogy*100+450       #ogx,ogyに依存させることで後々升目に合わせて移動するようにする
     canvas.create_image(gx,gy, image=goal,tag="goal")
     
     key = ""
-    gt = 0                                  #s工科トンが何手動いたか数えるためのgtを初期化
+    gt = 0                                  #s工科とんが何手動いたか数えるためのgtを初期化
     root.bind("<KeyPress>",key_down)
     root.bind("<KeyRelease>",key_up)
     
