@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import font
 import tkinter.messagebox as tkm
-
+import maze_maker as mm
 def key_down(event):
     global key
     key=event.keysym
@@ -11,7 +10,7 @@ def key_up(event):
     global key
     key = ""
     print(key)
-
+    
 def main_proc():
     global cx, cy, key
     hoge={
@@ -37,7 +36,8 @@ if __name__ == "__main__":
     root.title("迷える工科トン")
     canvas = tk.Canvas(root,width=1500,height=900,bg="black")
     canvas.pack()
-    
+    mz_list = mm.make_maze(15,9) #mzのリストを返す
+    mm.show_maze(canvas,mz_list) #canvasにmaze_bg絵御描く
     tori = tk.PhotoImage(file="fig/5.png")
     cx, cy = 300,400
     canvas.create_image(cx,cy, image=tori,tag="tori")
@@ -45,6 +45,8 @@ if __name__ == "__main__":
     key = ""
     root.bind("<KeyPress>",key_down)
     root.bind("<KeyRelease>",key_up)
-
+    
     main_proc()
+
+
     root.mainloop()
