@@ -30,6 +30,7 @@ def main():
     bmimg_rct.centery = random.randint(0,screen_rct.height)
     vx,vy = +1, +1
 
+    #メインループ
     while True:
         screen_sfc.blit(bgimg_sfc,bgimg_rct)
 
@@ -51,7 +52,7 @@ def main():
         if key_states[pg.K_RIGHT] == True:
             kk_rct.centerx +=1
 
-        if key_states[pg.K_w]:
+        if key_states[pg.K_w]:#WASDでも動けるように変更
             kk_rct.centery -=1
         if key_states[pg.K_s]:
             kk_rct.centery +=1
@@ -71,7 +72,7 @@ def main():
             if key_states[pg.K_RIGHT] == True:
                 kk_rct.centerx -=1
 
-            if key_states[pg.K_w]:
+            if key_states[pg.K_w]:#WASDでも移動できるように変更
                 kk_rct.centery +=1
             if key_states[pg.K_s]:
                 kk_rct.centery -=1
@@ -85,17 +86,17 @@ def main():
         bmimg_rct.move_ip(vx,vy)
         screen_sfc.blit(bmimg_sfc,bmimg_rct)
         yoko ,tate =  check_bound(bmimg_rct, screen_rct)
-        if yoko == False:
+        if yoko == False:  #爆弾の速度を壁に当たるごとに1.2倍にする
             vx*=-1.2
         if tate == False:
             vy*=-1.2
 
-        if kk_rct.colliderect(bmimg_rct):
+        if kk_rct.colliderect(bmimg_rct): #ゲームオーバー時にウィンドウを表示する
             txt ="終了"
             tkm.showinfo(txt,f"[{txt}]です")
             return
 
-        if key_states[pg.K_b]:
+        if key_states[pg.K_b]: 
             pass
 
         pg.display.update()
@@ -113,16 +114,16 @@ def check_bound(rct, scr_rct):
         tate = False
     return yoko, tate
     
-def start_game():
-    clock = pg.time.Clock()
+def start_game():   #ゲームの起動画面の作成、以下シーン0とする
+    clock = pg.time.Clock() 
     pg.display.set_caption("逃げろ！こうかとん")
     screen_sfc = pg.display.set_mode((1600, 900)) #surface
     screen_rct = screen_sfc.get_rect()            #rect
-    bgimg_sfc = pg.image.load("../ex03/fig/pg_bg.jpg") #surface
+    bgimg_sfc = pg.image.load("../ex03/fig/pg_bg.jpg") #surface　#背景は同じ
     bgimg_rct = bgimg_sfc.get_rect()              #rect
     screen_sfc.blit(bgimg_sfc,bgimg_rct)
 
-    s_sfc = pg.image.load("../ex03/fig/12.png")
+    s_sfc = pg.image.load("../ex03/fig/12.png")  #S to Start という文字を表示
     s_sfc = pg.transform.rotozoom(s_sfc, 0, 1.0)
     s_rct = s_sfc.get_rect()
     s_rct.center = 900, 400
@@ -136,7 +137,7 @@ def start_game():
                 return
         
         key_states = pg.key.get_pressed()
-        if key_states[pg.K_s]:
+        if key_states[pg.K_s]:             #Sを押すとこの関数が終了し、mainの関数に移行する。
             return
         pg.display.update()
         clock.tick(1000)
@@ -145,7 +146,7 @@ def start_game():
 
 if __name__ == "__main__":
     pg.init()
-    start_game()
-    main()
+    start_game()  #start画面の表示
+    main()        #ゲーム画面の表示
     pg.quit()
     sys.exit()
