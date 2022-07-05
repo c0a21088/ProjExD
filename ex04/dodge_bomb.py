@@ -17,14 +17,25 @@ def main():
     kk_rct = kk_sfc.get_rect()
     kk_rct.center = 900, 400
     
-    
+
     while True:
         screen_sfc.blit(bgimg_sfc,bgimg_rct)
-        screen_sfc.blit(kk_sfc, kk_rct)
 
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+
+        key_states = pg.key.get_pressed()
+        if key_states[pg.K_UP] == True:
+            kk_rct.centery -=1
+        if key_states[pg.K_DOWN] == True:
+            kk_rct.centery +=1
+        if key_states[pg.K_LEFT] == True:
+            kk_rct.centerx -=1
+        if key_states[pg.K_RIGHT] == True:
+            kk_rct.centerx +=1
+        screen_sfc.blit(kk_sfc, kk_rct)
+
         pg.display.update()
         clock.tick(1000)
 
