@@ -28,7 +28,7 @@ def main():
     bmimg_rct = bmimg_sfc.get_rect() #rect
     bmimg_rct.centerx = random.randint(0,screen_rct.width)
     bmimg_rct.centery = random.randint(0,screen_rct.height)
-
+    vx,vy = +1, +1
 
     while True:
         screen_sfc.blit(bgimg_sfc,bgimg_rct)
@@ -36,7 +36,8 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-
+        
+        #こうかとんの動き
         key_states = pg.key.get_pressed()
         if key_states[pg.K_UP] == True:
             kk_rct.centery -=1
@@ -46,13 +47,44 @@ def main():
             kk_rct.centerx -=1
         if key_states[pg.K_RIGHT] == True:
             kk_rct.centerx +=1
+        if  check_bound(kk_rct,screen_rct) != (True, True):
+            if key_states[pg.K_UP] == True:
+                kk_rct.centery +=1
+            if key_states[pg.K_DOWN] == True:
+                kk_rct.centery -=1
+            if key_states[pg.K_LEFT] == True:
+                kk_rct.centerx +=1
+            if key_states[pg.K_RIGHT] == True:
+                kk_rct.centerx -=1
         screen_sfc.blit(kk_sfc, kk_rct)
 
+        #練習6　爆弾の動き
+        bmimg_rct.move_ip(vx,vy)
         screen_sfc.blit(bmimg_sfc,bmimg_rct)
+        yoko ,tate =  check_bound(bmimg_rct, screen_rct)
+        if yoko == False:
+            vx*=-1
+        if tate == False:
+            vy*=-1
+        
+        if kk_rct.colliderect(bmimg_rct):
+            return
 
         pg.display.update()
         clock.tick(1000)
 
+def check_bound(rct, scr_rct):
+    """
+    [1] rct: こうかとん or 爆弾のrct
+    [2] scr_rct: スクリーンのrect
+    """
+    yoko, tate = True, True
+    if rct.left < scr_rct.left or scr_rct.right < rct.right:
+        yoko = False
+    if rct.top < scr_rct.top or scr_rct.bottom < rct.bottom:
+        tate = False
+    return yoko, tate
+    
 
 if __name__ == "__main__":
     pg.init()
