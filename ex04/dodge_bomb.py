@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 import random
-
+import tkinter.messagebox as tkm
 def main():
     clock = pg.time.Clock()
 
@@ -39,6 +39,9 @@ def main():
         
         #こうかとんの動き
         key_states = pg.key.get_pressed()
+        if key_states[pg.K_c]:
+            kk_sfc = pg.image.load("../ex03/fig/11.png")
+            kk_sfc = pg.transform.rotozoom(kk_sfc, 0, 0.2)     
         if key_states[pg.K_UP] == True:
             kk_rct.centery -=1
         if key_states[pg.K_DOWN] == True:
@@ -47,6 +50,17 @@ def main():
             kk_rct.centerx -=1
         if key_states[pg.K_RIGHT] == True:
             kk_rct.centerx +=1
+
+        if key_states[pg.K_w]:
+            kk_rct.centery -=1
+        if key_states[pg.K_s]:
+            kk_rct.centery +=1
+        if key_states[pg.K_a]:
+            kk_rct.centerx -=1
+        if key_states[pg.K_d]:
+            kk_rct.centerx +=1
+
+        
         if  check_bound(kk_rct,screen_rct) != (True, True):
             if key_states[pg.K_UP] == True:
                 kk_rct.centery +=1
@@ -56,6 +70,15 @@ def main():
                 kk_rct.centerx +=1
             if key_states[pg.K_RIGHT] == True:
                 kk_rct.centerx -=1
+
+            if key_states[pg.K_w]:
+                kk_rct.centery +=1
+            if key_states[pg.K_s]:
+                kk_rct.centery -=1
+            if key_states[pg.K_a]:
+                kk_rct.centerx +=1
+            if key_states[pg.K_d]:
+                kk_rct.centerx -=1
         screen_sfc.blit(kk_sfc, kk_rct)
 
         #練習6　爆弾の動き
@@ -63,12 +86,17 @@ def main():
         screen_sfc.blit(bmimg_sfc,bmimg_rct)
         yoko ,tate =  check_bound(bmimg_rct, screen_rct)
         if yoko == False:
-            vx*=-1
+            vx*=-1.2
         if tate == False:
-            vy*=-1
-        
+            vy*=-1.2
+
         if kk_rct.colliderect(bmimg_rct):
+            txt ="終了"
+            tkm.showinfo(txt,f"[{txt}]です")
             return
+
+        if key_states[pg.K_b]:
+            pass
 
         pg.display.update()
         clock.tick(1000)
@@ -85,9 +113,39 @@ def check_bound(rct, scr_rct):
         tate = False
     return yoko, tate
     
+def start_game():
+    clock = pg.time.Clock()
+    pg.display.set_caption("逃げろ！こうかとん")
+    screen_sfc = pg.display.set_mode((1600, 900)) #surface
+    screen_rct = screen_sfc.get_rect()            #rect
+    bgimg_sfc = pg.image.load("../ex03/fig/pg_bg.jpg") #surface
+    bgimg_rct = bgimg_sfc.get_rect()              #rect
+    screen_sfc.blit(bgimg_sfc,bgimg_rct)
+
+    s_sfc = pg.image.load("../ex03/fig/12.png")
+    s_sfc = pg.transform.rotozoom(s_sfc, 0, 1.0)
+    s_rct = s_sfc.get_rect()
+    s_rct.center = 900, 400
+
+    while True:
+        screen_sfc.blit(bgimg_sfc,bgimg_rct)
+        screen_sfc.blit(s_sfc, s_rct)
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT: 
+                return
+        
+        key_states = pg.key.get_pressed()
+        if key_states[pg.K_s]:
+            return
+        pg.display.update()
+        clock.tick(1000)
+        
+
 
 if __name__ == "__main__":
     pg.init()
+    start_game()
     main()
     pg.quit()
     sys.exit()
