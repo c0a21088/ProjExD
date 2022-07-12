@@ -118,6 +118,16 @@ class Item:
         self.blit(scr)
 
 
+class Frame:
+    def __init__(self):
+        self.frame = 0
+
+
+class ok:
+    def __init__(self):
+        pass
+    
+
 def main():
     is_item = False
     is_sentou_mode = False
