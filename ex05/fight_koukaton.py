@@ -122,11 +122,19 @@ class Frame:
     def __init__(self):
         self.frame = 0
 
+    def blit(self, scr: Screen):
+        scr.sfc.blit(self.sfc, self.rct)
+    def update():
+        pass
+
 
 class ok:
     def __init__(self):
         pass
-    
+    def blit(self, scr: Screen):
+        scr.sfc.blit(self.sfc, self.rct)
+    def update():
+        pass
 
 def main():
     is_item = False
