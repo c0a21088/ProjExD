@@ -18,3 +18,7 @@
 - ランダムにブロックを追加したかった
 - アイテムの取得後の効果の付与
 ### README作成者　全員
+### 参考
+- https://algorithm.joho.info/programming/python/pygame-blockout/
+- http://westplain.sakuraweb.com/translate/pygame/Mouse.cgi
+- 
