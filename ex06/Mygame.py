@@ -6,10 +6,10 @@ import sys
 import pygame.mixer
 from random import randint
 
-# 画面サイズ
+# 画面サイズ 前迫
 SCREEN = Rect(0, 0, 1000, 700)
 
-# バドルのクラス
+# バドルのクラス 根本
 class Paddle(pygame.sprite.Sprite):
     # コンストラクタ（初期化メソッド）
     def __init__(self, filename):
@@ -22,7 +22,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.centerx = pygame.mouse.get_pos()[0]  # マウスのx座標をパドルのx座標に
         self.rect.clamp_ip(SCREEN)                     # ゲーム画面内のみで移動
 
-# ボールのクラス
+# ボールのクラス 望月、根本、都筑、渡辺、前迫、内田
 class Ball(pygame.sprite.Sprite):
     # コンストラクタ（初期化メソッド）
     def __init__(self, filename, paddle, blocks, score, speed, angle_left, angle_right):
@@ -78,7 +78,7 @@ class Ball(pygame.sprite.Sprite):
             angle = math.radians(y)                     # 反射角度
             self.dx = self.speed * math.cos(angle)
             self.dy = -self.speed * math.sin(angle)
-            #self.paddle_sound.play()                    # 反射音
+            self.paddle_sound.play()                    # 反射音
 
         # ボールを落とした場合
         if self.rect.top > SCREEN.bottom:
@@ -86,11 +86,11 @@ class Ball(pygame.sprite.Sprite):
             self.gameover_sound.play()
             self.hit = 0
             self.score.add_score(-100)                  # スコア減点-100点
-            self.update=time.sleep(4)
+            #self.update=time.sleep(4)
         # ボールと衝突したブロックリストを取得（Groupが格納しているSprite中から、指定したSpriteと接触しているものを探索）
         blocks_collided = pygame.sprite.spritecollide(self, self.blocks, True)
         if blocks_collided:  # 衝突ブロックがある場合
-            itemper = randint(0,2) #アイテムが出る確率
+            itemper = randint(0,8) #アイテムが出る確率
             for block in blocks_collided:
                 if itemper == 1 and block.kill_int == 0:
                         items = Item("fig/treasure.png",block)
@@ -122,40 +122,41 @@ class Ball(pygame.sprite.Sprite):
                 if block.kill_int == 0:
                     self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
 
+    #望月
 class Missile(pygame.sprite.Sprite):
     # コンストラクタ（初期化メソッド）
     def __init__(self, filename, paddle, blocks, score, speed):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.image = pygame.image.load(filename).convert()
         self.rect = self.image.get_rect()
-        self.dx = self.dy = 0  # ボールの速度
+        self.dx = self.dy = 0  # ミサイルの速度
         self.paddle = paddle  # パドルへの参照
         self.blocks = blocks  # ブロックグループへの参照
         self.update = self.start # ゲーム開始状態に更新
         self.score = score
         self.hit = 0  # 連続でブロックを壊した回数
-        self.speed = speed # ボールの初期速度
+        self.speed = speed # ミサイルの初期速度
 
 
-    # ゲーム開始状態（マウスを左クリック時するとボール射出）
+    # ゲーム開始状態（マウスを右クリック時するとミサイル射出）
     def start(self):
-        # ボールの初期位置(パドルの上)
+        # ミサイルの初期位置(パドルの上)
         self.rect.centerx = self.paddle.rect.centerx
         self.rect.bottom = self.paddle.rect.top
 
-        # 左クリックでボール射出
+        # 右クリックでミサイル射出
         if pygame.mouse.get_pressed()[2] == 1:
             self.dx = 0
             self.dy = -self.speed
             self.update = self.move
 
-    # ボールの挙動
+    # ミサイルの挙動
     def move(self):
         self.rect.centerx += self.dx
         self.rect.centery += self.dy
 
 
-        # ボールと衝突したブロックリストを取得（Groupが格納しているSprite中から、指定したSpriteと接触しているものを探索）
+        # ミサイルと衝突したブロックリストを取得（Groupが格納しているSprite中から、指定したSpriteと接触しているものを探索）
         blocks_collided = pygame.sprite.spritecollide(self, self.blocks, True)
         if blocks_collided:  # 衝突ブロックがある場合
             itemper = randint(0,2) #アイテムが出る確率
@@ -166,14 +167,14 @@ class Missile(pygame.sprite.Sprite):
                     Block("fig/block.png", block.x, block.y, 0)
                 oldrect = self.rect
 
-                # ボールが下からブロックへ衝突した場合
+                # ミサイルが下からブロックへ衝突した場合
                 if block.rect.top < oldrect.top and block.rect.bottom < oldrect.bottom:
                     self.rect.top = block.rect.bottom
                     self.dy = -self.dy
                     self.update = self.start
 
 
-# ブロックのクラス
+# ブロックのクラス　都筑
 class Block(pygame.sprite.Sprite):
     def __init__(self, filename, x, y, kill_int):
         pygame.sprite.Sprite.__init__(self, self.containers)
@@ -186,7 +187,7 @@ class Block(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
-# スコアのクラス
+# スコアのクラス　内田
 class Score():
     def __init__(self, x, y):
         self.sysfont = pygame.font.SysFont(None, 20)
@@ -198,7 +199,7 @@ class Score():
     def add_score(self, x):
         self.score += x
     
-#アイテムのクラス
+#アイテムのクラス　前迫、都筑
 class Item(pygame.sprite.Sprite):
     def __init__(self,imagename,block):
         pygame.sprite.Sprite.__init__(self, self.containers)
@@ -246,7 +247,7 @@ def main():
     # パドルの作成
     paddle = Paddle("fig/paddle.png")
 
-    # ブロックの作成(14*10)
+    # ブロックの作成(14*10)　前迫、都筑
     for x in range(1, 38):
         for y in range(1, 20):
             if randint(0,10)==1:
@@ -256,14 +257,15 @@ def main():
                 kill_int = 0
                 Block("fig/block.png", x, y, kill_int)
 
-    # スコアを画面(10, 10)に表示
+    # スコアを画面(10, 10)に表示　内田
     score = Score(10, 10)  
 
-    # ボールを作成
+    # ボールを作成+ボールのリスト作成　根本
     ball = Ball("fig/ball.png",
          paddle, blocks, score, 5, 135, 45)
     lst = [ball]
-    
+
+    #　ミサイルの作成　望月
     Missile("fig/missile10.jpg",paddle, blocks, score, 5)
 
     clock = pygame.time.Clock()
@@ -279,13 +281,13 @@ def main():
         score.draw(screen) 
         # 画面更新 
         pygame.display.update()
-
+        # キーイベント（複数のボールの生成）　根本
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == K_SPACE:
                 new_ball = Ball("fig/ball.png",
                                 paddle, blocks, score, 5, 135, 45)
                 lst.append(new_ball)
-        # キーイベント（終了）
+        # キーイベント（終了）　根本、渡辺
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
