@@ -21,4 +21,3 @@
 ### 参考
 - https://algorithm.joho.info/programming/python/pygame-blockout/
 - http://westplain.sakuraweb.com/translate/pygame/Mouse.cgi
-- 
